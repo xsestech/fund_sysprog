@@ -20,4 +20,5 @@ target_link_libraries(
 target_link_libraries(
         mp_os_lggr_clnt_lggr
         PUBLIC
-        nlohmann_json::nlohmann_json)
+        nlohmann_json::nlohmann_json
+        yaml-cpp::yaml-cpp)

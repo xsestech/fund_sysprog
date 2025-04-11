@@ -36,7 +36,7 @@ public:
 
     logger_builder& set_format(const std::string& format) & override;
 
-    [[nodiscard]] logger *build() const override;
+    [[nodiscard]] std::unique_ptr<logger> build() const override;
 
 };
 

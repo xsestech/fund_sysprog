@@ -5,6 +5,7 @@
 #include <unordered_map>
 #include <forward_list>
 #include <nlohmann/json.hpp>
+#include <yaml-cpp/yaml.h>
 #include "client_logger.h"
 
 class client_logger_builder final:
@@ -16,7 +17,8 @@ private:
 
     std::string _format;
 
-    void parse_severity(logger::severity, nlohmann::json& j);
+    void parse_severity(logger::severity, nlohmann::json& config);
+    void parse_severity(logger::severity, YAML::Node& config);
 
 public:
 
@@ -55,7 +57,7 @@ public:
 
     logger_builder& clear() & override;
 
-    [[nodiscard]] logger *build() const override;
+    [[nodiscard]] std::unique_ptr<logger> build() const override;
 
 };
 

@@ -17,11 +17,6 @@ private:
 
     class refcounted_stream final
     {
-        static std::unordered_map<std::string, std::pair<size_t, std::ofstream>> _global_streams;
-
-        std::pair<std::string, std::ofstream*> _stream;
-        friend client_logger;
-        friend client_logger_builder;
     public:
 
         explicit refcounted_stream(const std::string& path);
@@ -38,6 +33,16 @@ private:
         void open();
 
         ~refcounted_stream();
+     private:
+      // Here should be put all streams with refcount
+      static std::unordered_map<std::string, std::pair<size_t, std::ofstream>> _global_streams;
+
+      std::pair<std::string, std::ofstream*> _stream;
+      friend client_logger;
+      friend client_logger_builder;
+
+      void release();
+      void copy_from_stream(const client_logger::refcounted_stream &oth);
     };
 
     //region refcounted_stream
@@ -60,6 +65,8 @@ private:
     std::string make_format(const std::string& message, severity sev) const;
 
     static flag char_to_flag(char c) noexcept;
+
+    void deepcopy(const client_logger &other);
 
     friend client_logger_builder;
 public:

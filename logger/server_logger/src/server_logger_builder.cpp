@@ -26,7 +26,7 @@ logger_builder& server_logger_builder::clear() &
     throw not_implemented("logger_builder& server_logger_builder::clear() &", "your code should be here...");
 }
 
-logger *server_logger_builder::build() const
+std::unique_ptr<logger> server_logger_builder::build() const
 {
     throw not_implemented("logger *server_logger_builder::build() const", "your code should be here...");
 }

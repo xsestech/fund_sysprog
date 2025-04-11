@@ -25,7 +25,7 @@ public:
 
     virtual logger_builder& clear() & = 0;
 
-    [[nodiscard]] virtual logger* build() const = 0;
+    [[nodiscard]] virtual std::unique_ptr<logger> build() const = 0;
 
     virtual logger_builder& set_format(const std::string& format) & =0;
 

@@ -10,13 +10,13 @@ logger_builder& client_logger_builder::add_file_stream(
     std::string const &stream_file_path,
     logger::severity severity) &
 {
-    throw not_implemented("logger_builder& client_logger_builder::add_file_stream(std::string const &,logger::severity ) &", "your code should be here...");
+  _output_streams[severity].first.emplace_front(stream_file_path);
 }
 
 logger_builder& client_logger_builder::add_console_stream(
     logger::severity severity) &
 {
-    throw not_implemented("logger_builder& client_logger_builder::add_console_stream(logger::severity) &", "your code should be here...");
+  _output_streams[severity].second = true;
 }
 
 logger_builder& client_logger_builder::transform_with_configuration(
@@ -28,17 +28,17 @@ logger_builder& client_logger_builder::transform_with_configuration(
 
 logger_builder& client_logger_builder::clear() &
 {
-    throw not_implemented("logger_builder& client_logger_builder::clear() &", "your code should be here...");
+  _output_streams.clear();
 }
 
-logger *client_logger_builder::build() const
+std::unique_ptr<logger> client_logger_builder::build() const
 {
-    throw not_implemented("logger *client_logger_builder::build() const", "your code should be here...");
+  return std::unique_ptr<logger>(new client_logger(_output_streams, _format));
 }
 
 logger_builder& client_logger_builder::set_format(const std::string &format) &
 {
-    throw not_implemented("logger_builder& client_logger_builder::set_format(const std::string &) &", "your code should be here...");
+  _format = format;
 }
 
 void client_logger_builder::parse_severity(logger::severity sev, nlohmann::json& j)
