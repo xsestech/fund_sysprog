@@ -18,7 +18,7 @@ private:
     std::string _format;
 
     void parse_severity(logger::severity, nlohmann::json& config);
-    void parse_severity(logger::severity, YAML::Node& config);
+    // void parse_severity(logger::severity, YAML::Node& config);
 
 public:
 

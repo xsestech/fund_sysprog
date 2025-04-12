@@ -11,17 +11,18 @@ std::unordered_map<std::string, std::pair<size_t, std::ofstream>> client_logger:
 
 
 logger &client_logger::log(
-    const std::string &text,
-    logger::severity severity) &{
-  const std::string formatted_text = make_format(text, severity);
+    const std::string &message,
+    const logger::severity severity) &{
+  const std::string formatted_text = make_format(message, severity);
   auto it = _output_streams.find(severity);
   auto& [streams, stdout_flag] = it->second;
   if (it->second.second) {
     std::cout << formatted_text;
   }
-  for (auto stream : streams) {
-
+  for (const auto& stream : streams) {
+    *stream._stream.second << formatted_text;
   }
+  return *this;
 }
 
 std::string client_logger::make_format(const std::string &message, severity sev) const {
@@ -41,6 +42,7 @@ std::string client_logger::make_format(const std::string &message, severity sev)
               break;
             case flag::MESSAGE:
               result += message;
+              break;
             default:
               throw std::invalid_argument("Invalid format specifier");
          }
@@ -97,6 +99,7 @@ client_logger &client_logger::operator=(const client_logger &other) {
   if (this != &other) {
     deepcopy(other);
   }
+  return *this;
 }
 
 client_logger::client_logger(client_logger &&other) noexcept {
@@ -107,6 +110,7 @@ client_logger::client_logger(client_logger &&other) noexcept {
 client_logger &client_logger::operator=(client_logger &&other) noexcept {
   _format = std::move(other._format);
   _output_streams = std::move(_output_streams);
+  return *this;
 }
 
 client_logger::~client_logger() noexcept = default;
@@ -180,6 +184,7 @@ client_logger::refcounted_stream &client_logger::refcounted_stream::operator=(cl
     release();
     _stream = std::move(oth._stream);
   }
+  return *this;
 }
 
 client_logger::refcounted_stream::~refcounted_stream() {

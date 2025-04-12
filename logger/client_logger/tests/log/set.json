@@ -1,0 +1,5 @@
+{
+  "WARNING": ["stdout"],
+  "TRACE": ["c.txt", "d.txt", "c.txt"],
+  "DEBUG": ["k.txt"]
+}
